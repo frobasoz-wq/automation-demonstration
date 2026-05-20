@@ -1,125 +1,167 @@
-"use client";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zigbee Automation Lab - Standalone Export</title>
+    <!-- Dependencies: Tailwind CSS and Lucide Icons -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Custom animations to match the React component */
+        @keyframes dash {
+            to {
+                stroke-dashoffset: -1000;
+            }
+        }
+        .animate-dash {
+            stroke-dasharray: 8,4;
+            animation: dash 30s linear infinite;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 p-4 md:p-12 flex items-center justify-center min-h-screen font-sans">
 
-import React, { useState, useEffect } from 'react';
-import { Activity, Lightbulb, Wifi, Zap, RefreshCw } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
-
-export function MotionSimDemo() {
-  const [isActive, setIsActive] = useState(false);
-  const [showSignal, setShowSignal] = useState(false);
-
-  const handleSimulate = () => {
-    if (isActive) return;
-    
-    setIsActive(true);
-    setShowSignal(true);
-    
-    // Simulate motion event
-    setTimeout(() => {
-      setShowSignal(false);
-    }, 1000);
-
-    // Auto-reset after 3 seconds
-    setTimeout(() => {
-      setIsActive(false);
-    }, 3000);
-  };
-
-  return (
-    <div className="container mx-auto px-4 max-w-4xl">
-      <Card className="border-[6px] border-slate-900 shadow-xl bg-white rounded-[2.5rem] overflow-hidden">
-        <CardContent className="p-0">
-          <div className="grid grid-cols-1 md:grid-cols-2">
-            {/* Control Side */}
-            <div className="p-8 md:p-12 space-y-6 bg-slate-50 border-r border-slate-100 flex flex-col justify-center">
-              <div className="space-y-2">
-                <h3 className="text-2xl font-headline font-bold text-slate-900">See an Automation in Action</h3>
-                <p className="text-sm text-slate-500 leading-relaxed">
-                  See a smart home in action. Tap the button to trigger the motion sensor and watch the lamp react — a perfect example of an “If motion, then light” automation. You can build this in your own Zigbee network (Motion‑Activated Lighting).
-                </p>
-              </div>
-              
-              <div className="pt-4">
-                <Button 
-                  onClick={handleSimulate} 
-                  disabled={isActive}
-                  className={cn(
-                    "w-full h-14 rounded-full font-bold text-lg transition-all shadow-lg",
-                    isActive ? "bg-slate-200 text-slate-400" : "bg-secondary hover:bg-secondary/90 text-white shadow-secondary/20"
-                  )}
-                >
-                  {isActive ? (
-                    <><RefreshCw className="mr-2 h-5 w-5 animate-spin" /> Automation Active</>
-                  ) : (
-                    <><Activity className="mr-2 h-5 w-5" /> Simulate Motion</>
-                  )}
-                </Button>
-              </div>
-            </div>
-
-            {/* Visualisation Side */}
-            <div className="p-12 flex items-center justify-center relative overflow-hidden bg-white min-h-[300px]">
-              {/* Background Grid */}
-              <div className="absolute inset-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(#000 1px, transparent 1px)', backgroundSize: '20px 20px' }} />
-              
-              <div className="relative flex items-center gap-12 md:gap-20 z-10">
-                {/* Motion Sensor Node */}
-                <div className="flex flex-col items-center gap-3">
-                  <div className={cn(
-                    "p-5 rounded-2xl border-2 transition-all duration-300",
-                    isActive ? "bg-secondary border-secondary text-white shadow-xl scale-110" : "bg-slate-50 border-slate-200 text-slate-400"
-                  )}>
-                    <Activity className="h-8 w-8" />
-                  </div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Sensor</span>
-                </div>
-
-                {/* Signal Path */}
-                <div className="relative w-12 md:w-20 h-0.5 bg-slate-100">
-                  {showSignal && (
-                    <div className="absolute inset-0 bg-primary animate-in slide-in-from-left fade-in duration-500 rounded-full shadow-[0_0_10px_hsl(var(--primary))]">
-                      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 bg-primary rounded-full" />
+    <div class="max-w-4xl w-full">
+        <!-- Start of Automation Lab Component -->
+        <div class="border-[6px] border-slate-900 shadow-2xl bg-white rounded-[2.5rem] overflow-hidden">
+            <div class="grid grid-cols-1 md:grid-cols-2">
+                <!-- Control Side -->
+                <div class="p-8 md:p-12 space-y-6 bg-slate-50 border-r border-slate-100 flex flex-col justify-center">
+                    <div class="space-y-2">
+                        <h3 class="text-2xl font-bold text-slate-900" style="font-family: 'Space Grotesk', sans-serif;">See an Automation in Action</h3>
+                        <p class="text-sm text-slate-500 leading-relaxed">
+                            See a smart home in action. Tap the button to trigger the motion sensor and watch the lamp react — a perfect example of an “If motion, then light” automation.
+                        </p>
                     </div>
-                  )}
-                  <Zap className={cn(
-                    "absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-4 w-4 transition-colors",
-                    showSignal ? "text-primary fill-primary" : "text-slate-200"
-                  )} />
+
+                    <div class="pt-4">
+                        <button id="simulateBtn" class="w-full h-14 rounded-full font-bold text-lg transition-all shadow-lg bg-[#e8230a] hover:bg-[#c41d08] text-white shadow-red-200 flex items-center justify-center gap-2 active:scale-95">
+                            <i data-lucide="activity" class="h-5 w-5"></i>
+                            <span id="btnText">Simulate Motion</span>
+                        </button>
+                    </div>
                 </div>
 
-                {/* Lamp Node */}
-                <div className="flex flex-col items-center gap-3">
-                  <div className={cn(
-                    "p-5 rounded-2xl border-2 transition-all duration-700 relative",
-                    isActive 
-                      ? "bg-yellow-50 border-yellow-400 text-yellow-500 shadow-[0_0_40px_rgba(234,179,8,0.3)] scale-110" 
-                      : "bg-slate-50 border-slate-200 text-slate-300"
-                  )}>
-                    <Lightbulb className={cn("h-8 w-8 transition-all", isActive && "fill-yellow-400")} />
-                    {isActive && (
-                      <div className="absolute inset-0 bg-yellow-400/10 animate-ping rounded-2xl" />
-                    )}
-                  </div>
-                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Lamp</span>
-                </div>
-              </div>
+                <!-- Visualisation Side -->
+                <div class="p-12 flex items-center justify-center relative overflow-hidden bg-white min-h-[300px]">
+                    <!-- Background Grid -->
+                    <div class="absolute inset-0 opacity-[0.03]" style="background-image: radial-gradient(#000 1px, transparent 1px); background-size: 20px 20px;"></div>
 
-              {/* Status Label */}
-              <div className={cn(
-                "absolute bottom-8 left-1/2 -translate-x-1/2 transition-all duration-500",
-                isActive ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
-              )}>
-                <Badge className="bg-green-500 text-white font-black px-4 py-1 animate-bounce">
-                  Motion Detected
-                </Badge>
-              </div>
+                    <div class="relative flex items-center gap-12 md:gap-20 z-10">
+                        <!-- Motion Sensor Node -->
+                        <div class="flex flex-col items-center gap-3">
+                            <div id="sensorNode" class="p-5 rounded-2xl border-2 transition-all duration-300 bg-slate-50 border-slate-200 text-slate-400">
+                                <i data-lucide="activity" class="h-8 w-8"></i>
+                            </div>
+                            <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">Sensor</span>
+                        </div>
+
+                        <!-- Signal Path -->
+                        <div class="relative w-12 md:w-20 h-0.5 bg-slate-100">
+                            <div id="signalLine" class="absolute inset-0 bg-[#1a8cff] hidden rounded-full shadow-[0_0_15px_#1a8cff] transition-all duration-500">
+                                <div class="absolute right-0 top-1/2 -translate-y-1/2 w-2.5 h-2.5 bg-[#1a8cff] rounded-full"></div>
+                            </div>
+                            <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-4 w-4 transition-colors">
+                                <i data-lucide="zap" id="zapIcon" class="h-4 w-4 text-slate-200"></i>
+                            </div>
+                        </div>
+
+                        <!-- Lamp Node -->
+                        <div class="flex flex-col items-center gap-3">
+                            <div id="lampNode" class="p-5 rounded-2xl border-2 transition-all duration-700 relative bg-slate-50 border-slate-200 text-slate-300">
+                                <i data-lucide="lightbulb" id="lampIcon" class="h-8 w-8 transition-all"></i>
+                                <div id="lampPing" class="absolute inset-0 bg-yellow-400/10 hidden rounded-2xl animate-ping"></div>
+                            </div>
+                            <span class="text-[10px] font-black uppercase tracking-widest text-slate-400">Lamp</span>
+                        </div>
+                    </div>
+
+                    <!-- Status Label -->
+                    <div id="statusBadge" class="absolute bottom-8 left-1/2 -translate-x-1/2 transition-all duration-500 opacity-0 translate-y-4">
+                        <span class="bg-green-500 text-white font-bold px-4 py-1 rounded-full text-[10px] uppercase tracking-widest animate-bounce inline-block shadow-md">
+                            Motion Detected
+                        </span>
+                    </div>
+                </div>
             </div>
-          </div>
-        </CardContent>
-      </Card>
+        </div>
+        <!-- End of Automation Lab Component -->
+        
+        <p class="text-center text-slate-400 text-xs mt-8 font-medium">Standalone Export from Zigbee Explained</p>
     </div>
-  );
-}
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        const btn = document.getElementById('simulateBtn');
+        const btnText = document.getElementById('btnText');
+        const sensorNode = document.getElementById('sensorNode');
+        const signalLine = document.getElementById('signalLine');
+        const zapIcon = document.getElementById('zapIcon');
+        const lampNode = document.getElementById('lampNode');
+        const lampIcon = document.getElementById('lampIcon');
+        const lampPing = document.getElementById('lampPing');
+        const statusBadge = document.getElementById('statusBadge');
+
+        let isActive = false;
+
+        btn.addEventListener('click', () => {
+            if (isActive) return;
+            isActive = true;
+
+            // 1. Activate Sensor and Button
+            btn.classList.add('bg-slate-200', 'text-slate-400', 'cursor-not-allowed', 'shadow-none');
+            btn.classList.remove('bg-[#e8230a]', 'hover:bg-[#c41d08]', 'text-white', 'shadow-lg');
+            btnText.textContent = 'Automation Running...';
+
+            sensorNode.classList.add('bg-[#e8230a]', 'border-[#e8230a]', 'text-white', 'scale-110', 'shadow-2xl');
+            sensorNode.classList.remove('bg-slate-50', 'border-slate-200', 'text-slate-400');
+
+            // 2. Trigger Signal Animation
+            signalLine.classList.remove('hidden');
+            zapIcon.classList.add('text-[#1a8cff]', 'fill-[#1a8cff]');
+            zapIcon.classList.remove('text-slate-200');
+
+            // 3. Receive Signal & Trigger Lamp
+            setTimeout(() => {
+                signalLine.classList.add('hidden');
+                
+                lampNode.classList.add('bg-yellow-50', 'border-yellow-400', 'text-yellow-500', 'shadow-[0_0_50px_rgba(234,179,8,0.4)]', 'scale-110');
+                lampNode.classList.remove('bg-slate-50', 'border-slate-200', 'text-slate-300');
+                lampIcon.classList.add('fill-yellow-400');
+                lampPing.classList.remove('hidden');
+                
+                statusBadge.classList.remove('opacity-0', 'translate-y-4');
+                statusBadge.classList.add('opacity-100', 'translate-y-0');
+            }, 600);
+
+            // 4. Auto-Reset after 3 seconds
+            setTimeout(() => {
+                isActive = false;
+                
+                // Reset Button
+                btn.classList.remove('bg-slate-200', 'text-slate-400', 'cursor-not-allowed', 'shadow-none');
+                btn.classList.add('bg-[#e8230a]', 'hover:bg-[#c41d08]', 'text-white', 'shadow-lg');
+                btnText.textContent = 'Simulate Motion';
+
+                // Reset Nodes
+                sensorNode.classList.remove('bg-[#e8230a]', 'border-[#e8230a]', 'text-white', 'scale-110', 'shadow-2xl');
+                sensorNode.classList.add('bg-slate-50', 'border-slate-200', 'text-slate-400');
+
+                zapIcon.classList.remove('text-[#1a8cff]', 'fill-[#1a8cff]');
+                zapIcon.classList.add('text-slate-200');
+
+                lampNode.classList.remove('bg-yellow-50', 'border-yellow-400', 'text-yellow-500', 'shadow-[0_0_50px_rgba(234,179,8,0.4)]', 'scale-110');
+                lampNode.classList.add('bg-slate-50', 'border-slate-200', 'text-slate-300');
+                lampIcon.classList.remove('fill-yellow-400');
+                lampPing.classList.add('hidden');
+
+                statusBadge.classList.add('opacity-0', 'translate-y-4');
+                statusBadge.classList.remove('opacity-100', 'translate-y-0');
+            }, 3500);
+        });
+    </script>
+</body>
+</html>
