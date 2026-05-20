@@ -38,7 +38,7 @@ export function MotionSimDemo() {
               <div className="space-y-2">
                 <h3 className="text-2xl font-headline font-bold text-slate-900">See an Automation in Action</h3>
                 <p className="text-sm text-slate-500 leading-relaxed">
-                  See a smart home in action. Tap the button to trigger the motion sensor and watch the lamp react — a perfect example of an “If motion, then light” automation. You can build this yourself with the Motion‑Activated Lighting module.
+                  See a smart home in action. Tap the button to trigger the motion sensor and watch the lamp react — a perfect example of an “If motion, then light” automation. You can build this in your own Zigbee network (Motion‑Activated Lighting).
                 </p>
               </div>
               
